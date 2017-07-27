@@ -8,35 +8,38 @@ class PageRenderHeader{
     constructor(){}
     renderTable(){
         let header = '';
-        header += '<div class="container top-radius">';
-		header += '<h2>Keypad</h2>';
-		header += '</div>';
+        header += `<div class="container top-radius">
+                        <h2>Keypad</h2>
+                    </div>`;
         document.body.querySelector('header').innerHTML = header;
     }
 }
 class PageRenderMain{
     constructor(){}
     renderTable(){
-        let keypadTable = [1, 2, 3, 4, 5, 6, 7, 8, 9, '*', 0, '#', ''],
+        let keypadTable = [1, 2, 3, 4, 5, 6, 7, 8, 9, '*', 0, '#'],
         input = '', buttons = '', keypad = '';
 // input
-        input += '<div class="number">';
-        input += '<span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>';
-        input += '<input class="numbers" id="numbers_input" placeholder="Enter phone number">';
-        input += '<span id="dell_contact" class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span>';
-        input += '</div>';
+        input += `<div class="number">
+                    <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+                        <input class="numbers" id="numbers_input" placeholder="Enter phone number">
+                    <span id="dell_contact" class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span>
+                </div>`;
 // buttons
         keypadTable.forEach(elem => {
             buttons += `<button class="key">${elem}</button>`;
         });
-		keypad += '<div id="keypad" class="keypad-holder">';
-		keypad += buttons;
-        keypad += '</div>';
+        keypad += `<div id="keypad" class="keypad-holder">
+                    ${buttons}
+                    <button class="key glyphicon glyphicon-earphone"></button>
+                </div>`;
         
-		document.body.querySelector('main').innerHTML = `<div class="container"> ${input} ${keypad} </div>`;
-		document.getElementById('keypad').lastChild.classList.add('glyphicon', 'glyphicon-earphone');
+        document.body.querySelector('main').innerHTML = `<div class="container"> ${input} ${keypad} </div>`;
+        console.log(document.getElementById('keypad'))
 // clicks
-		document.getElementById('keypad').querySelectorAll('button').forEach(elem => elem.onclick = () => document.getElementById('numbers_input').value += elem.textContent);
+		document.getElementById('keypad').querySelectorAll('button').forEach(elem => {
+            elem.addEventListener('click', () => document.getElementById('numbers_input').value += elem.textContent);
+        });
 		document.getElementById('dell_contact').onclick = () => document.getElementById('numbers_input').value = '';
     }
 }

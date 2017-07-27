@@ -6,22 +6,90 @@
 let contactsDb = {
     pages: ['Contacts'],
     contactsColumn: ['Name', 'Last name', 'Email'],
-    contactsBase: []
+    // contactsBase: []
+    contactsBase: [
+        {
+            _id: 1,
+            fullName: 'Иван Петров',
+            phone: '0974532641',
+            email: 'IvanPetrov@ec.ua'
+        },
+        {
+            _id: 2,
+            fullName: 'Сергей Иванов',
+            phone: '0634573611',
+            email: 'SergeiSergeev@ec.ua'
+        },
+        {
+            _id: 3,
+            fullName: 'Александр Александров',
+            phone: '0974576341',
+            email: 'IvanIvanov@ec.ua'
+        },
+        {
+            _id: 4,
+            fullName: 'Алекс Смирнов',
+            phone: '0954553141',
+            email: 'AlexAlex@ec.ua'
+        },
+        {
+            _id: 5,
+            fullName: 'Сергей Волков',
+            phone: '0934532411',
+            email: 'VolkovSergey@ec.ua'
+        },
+        {
+            _id: 6,
+            fullName: 'Елена Лещенко',
+            phone: '0954242641',
+            email: 'ElenaLeshenko@ec.ua'
+        },
+        {
+            _id: 7,
+            fullName: 'Алекс Сергеев',
+            phone: '0974524641',
+            email: 'ShemyakinaN@ec.ua'
+        },
+        {
+            _id: 8,
+            fullName: 'Кира Воробьева',
+            phone: '0974246341',
+            email: 'Kira1990@ec.ua'
+        }
+    ]
 };
+const url = 'http://easycode-js.herokuapp.com/';
 class Phonebook {
     constructor(){}
     reqestGet(){
-        const url = 'http://easycode-js.herokuapp.com/';
-        let getRequest = new XMLHttpRequest();
-        getRequest.addEventListener('readystatechange', () =>{
-            if(getRequest.readyState == 4){
-                contactsDb.contactsBase = JSON.parse(getRequest.responseText);
-                console.log(contactsDb.contactsBase);
+            let getRequest = new XMLHttpRequest();
+            getRequest.addEventListener('readystatechange', () =>{
+                if(getRequest.readyState == 4 && getRequest.DONE == 4){
+                    contactsDb.contactsBase = JSON.parse(getRequest.responseText);
+                    console.log(contactsDb.contactsBase);
+                    console.log(contactsDb);
+                }
+            });
+            getRequest.open('GET', url + 'DimaBerkutov/users', true);
+            getRequest.send();
+    }
+    reqestPost(firstName, lastName, phone, email){
+        console.log(firstName, lastName, phone, email)
+        const newUser = {
+            fullName: `${firstName} ${lastName}`,
+            email: email,
+            phone: phone
+        };
+        let postRequest = new XMLHttpRequest();
+        postRequest.addEventListener('readystatechange', () =>{
+            if(postRequest.readyState == 4){
+                console.log(newUser);
                 console.log(contactsDb);
             }
         });
-        getRequest.open('GET', url + 'DimaBerkutov/users', true);
-        getRequest.send();
+        postRequest.open('POST', url + 'DimaBerkutov/users', true);
+        postRequest.setRequestHeader('Content-Type', 'application/json');
+        postRequest.send(JSON.stringify(newUser));
     }
     numberMethod(val){
 //Проверка, что телефонный номер содержит только числа
@@ -80,7 +148,7 @@ class AddUserClass extends Phonebook {
 //         console.log("5) search User", searchDb);
 //     }
 // }
-// //Изменение имени, фамилии, телефонного номера у выбраного пользователя ( здесь должно быть реализовано через this )
+// //Изменение имени, фамилии, телефонного номера у выбраного пользователя
 // class EditUserClass extends Phonebook {
 //     constructor(){
 //         super()
@@ -103,10 +171,10 @@ class SortUserClass extends Phonebook {
     }
     sortUser(val){
        contactsDb.contactsBase.sort((a, b) => {
-        //    console.log(val)
-        //    console.log(a[val])
+        if (val == 'name'){
+            val = 'fullName';
+        }
            let sss = document.body.querySelectorAll
-        //    console.log(a[val])
             if (a[val] > b[val]) {
                 return 1
             }
@@ -116,24 +184,24 @@ class SortUserClass extends Phonebook {
             // a должно быть равным b
             return 0
         });
-        console.log("7) db after sort User", contactsDb.contactsBase)
     }
 }
-// //Фильтр по указанному свойству
-// class FilterUserClass extends Phonebook {
-//     constructor(){
-//         super()
-//     }
-//     filterUser(val){
-//        let filterDb = [];
-//         contactsDb.contactsBase.forEach((elem, index) => {
-//             if ( val in elem ){
-//                 filterDb.push(elem);
-//             }
-//         });
-//         console.log("8) db after filter User", filterDb);
-//     }
-// }
+//Фильтр по указанному свойству
+class FilterUserClass extends Phonebook {
+    constructor(){
+        super()
+    }
+    filterUser(val){
+       let filterDb = [];
+        contactsDb.contactsBase.forEach((elem, index) => {
+        let filterLength = elem.fullName.slice(0, val.length);
+        if (filterLength == val ){
+            filterDb.push(elem);
+        }
+        });
+        let val2 = new PageRenderMain().renderTable(filterDb);
+    }
+}
 
 
 // let phonebookGet = new Phonebook().reqestGet();

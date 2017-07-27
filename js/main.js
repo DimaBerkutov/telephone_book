@@ -7,89 +7,21 @@ let contactsDb = {
     pages: ['Contacts'],
     contactsColumn: ['Name', 'Last name', 'Email'],
     contactsBase: []
-    // contactsBase: [
-    //     {
-    //         id: 1,
-    //         name: 'Иван',
-    //         lastName: 'Петров',
-    //         phone: '0974532641',
-    //         mail: 'IvanPetrov@ec.ua'
-    //     },
-    //     {
-    //         id: 2,
-    //         name: 'Сергей',
-    //         lastName: 'Иванов',
-    //         phone: '0634573611',
-    //         mail: 'SergeiSergeev@ec.ua'
-    //     },
-    //     {
-    //         id: 3,
-    //         name: 'Александр',
-    //         lastName: 'Александров',
-    //         phone: '0974576341',
-    //         mail: 'IvanIvanov@ec.ua'
-    //     },
-    //     {
-    //         id: 4,
-    //         name: 'Алекс',
-    //         lastName: 'Смирнов',
-    //         phone: '0954553141',
-    //         mail: 'AlexAlex@ec.ua'
-    //     },
-    //     {
-    //         id: 5,
-    //         name: 'Сергей',
-    //         lastName: 'Волков',
-    //         phone: '0934532411',
-    //         mail: 'VolkovSergey@ec.ua'
-    //     },
-    //     {
-    //         id: 6,
-    //         name: 'Елена',
-    //         lastName: 'Лещенко',
-    //         phone: '0954242641',
-    //         mail: 'ElenaLeshenko@ec.ua'
-    //     },
-    //     {
-    //         id: 7,
-    //         name: 'Алекс',
-    //         lastName: 'Сергеев',
-    //         phone: '0974524641',
-    //         mail: 'ShemyakinaN@ec.ua'
-    //     },
-    //     {
-    //         id: 8,
-    //         name: 'Кира',
-    //         lastName: 'Воробьева',
-    //         phone: '0974246341',
-    //         mail: 'Kira1990@ec.ua'
-    //     }
-    // ]
 };
 class Phonebook {
     constructor(){}
     reqestGet(){
         const url = 'http://easycode-js.herokuapp.com/';
-        const serverReqestGet = () => {
-            let getRequest = new XMLHttpRequest();
-            getRequest.addEventListener('readystatechange', () =>{
-                if(getRequest.readyState == 4){
-                    contactsDb.contactsBase = JSON.parse(getRequest.responseText);
-                    console.log(contactsDb.contactsBase);
-                    console.log(contactsDb);
-                }
-            });
-            getRequest.open('GET', url + 'DimaBerkutov/users', true);
-            getRequest.send();
-        };
-        serverReqestGet();
-    }
-    editFullName(fullName){
-        fullName.split(' ');
-        let name = fullName.split(' ')[0];
-        let lastName = fullName.split(' ')[1];
-        console.log(name, lastName);
-        // PageRenderMain(name, lastName);
+        let getRequest = new XMLHttpRequest();
+        getRequest.addEventListener('readystatechange', () =>{
+            if(getRequest.readyState == 4){
+                contactsDb.contactsBase = JSON.parse(getRequest.responseText);
+                console.log(contactsDb.contactsBase);
+                console.log(contactsDb);
+            }
+        });
+        getRequest.open('GET', url + 'DimaBerkutov/users', true);
+        getRequest.send();
     }
     numberMethod(val){
 //Проверка, что телефонный номер содержит только числа
@@ -171,6 +103,10 @@ class SortUserClass extends Phonebook {
     }
     sortUser(val){
        contactsDb.contactsBase.sort((a, b) => {
+        //    console.log(val)
+        //    console.log(a[val])
+           let sss = document.body.querySelectorAll
+        //    console.log(a[val])
             if (a[val] > b[val]) {
                 return 1
             }
@@ -200,7 +136,7 @@ class SortUserClass extends Phonebook {
 // }
 
 
-let phonebookGet = new Phonebook().reqestGet();
+// let phonebookGet = new Phonebook().reqestGet();
 //let phonebook1 = new Phonebook().numberMethod("0993378130");
 //let phonebook2 = new AddUserClass().addUser(5, 'Marina', 'Tomilina', '0953253554');
 //let phonebook3 = new DeleteUserClass().deleteUser('Petr', 'Jiharev');

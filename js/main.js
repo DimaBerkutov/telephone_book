@@ -6,57 +6,57 @@
 let contactsDb = {
     pages: ['Contacts'],
     contactsColumn: ['Name', 'Last name', 'Email'],
-    // contactsBase: []
-    contactsBase: [
-        {
-            _id: 1,
-            fullName: 'Иван Петров',
-            phone: '0974532641',
-            email: 'IvanPetrov@ec.ua'
-        },
-        {
-            _id: 2,
-            fullName: 'Сергей Иванов',
-            phone: '0634573611',
-            email: 'SergeiSergeev@ec.ua'
-        },
-        {
-            _id: 3,
-            fullName: 'Александр Александров',
-            phone: '0974576341',
-            email: 'IvanIvanov@ec.ua'
-        },
-        {
-            _id: 4,
-            fullName: 'Алекс Смирнов',
-            phone: '0954553141',
-            email: 'AlexAlex@ec.ua'
-        },
-        {
-            _id: 5,
-            fullName: 'Сергей Волков',
-            phone: '0934532411',
-            email: 'VolkovSergey@ec.ua'
-        },
-        {
-            _id: 6,
-            fullName: 'Елена Лещенко',
-            phone: '0954242641',
-            email: 'ElenaLeshenko@ec.ua'
-        },
-        {
-            _id: 7,
-            fullName: 'Алекс Сергеев',
-            phone: '0974524641',
-            email: 'ShemyakinaN@ec.ua'
-        },
-        {
-            _id: 8,
-            fullName: 'Кира Воробьева',
-            phone: '0974246341',
-            email: 'Kira1990@ec.ua'
-        }
-    ]
+    contactsBase: []
+    // contactsBase: [
+    //     {
+    //         _id: 1,
+    //         fullName: 'Иван Петров',
+    //         phone: '0974532641',
+    //         email: 'IvanPetrov@ec.ua'
+    //     },
+    //     {
+    //         _id: 2,
+    //         fullName: 'Сергей Иванов',
+    //         phone: '0634573611',
+    //         email: 'SergeiSergeev@ec.ua'
+    //     },
+    //     {
+    //         _id: 3,
+    //         fullName: 'Александр Александров',
+    //         phone: '0974576341',
+    //         email: 'IvanIvanov@ec.ua'
+    //     },
+    //     {
+    //         _id: 4,
+    //         fullName: 'Алекс Смирнов',
+    //         phone: '0954553141',
+    //         email: 'AlexAlex@ec.ua'
+    //     },
+    //     {
+    //         _id: 5,
+    //         fullName: 'Сергей Волков',
+    //         phone: '0934532411',
+    //         email: 'VolkovSergey@ec.ua'
+    //     },
+    //     {
+    //         _id: 6,
+    //         fullName: 'Елена Лещенко',
+    //         phone: '0954242641',
+    //         email: 'ElenaLeshenko@ec.ua'
+    //     },
+    //     {
+    //         _id: 7,
+    //         fullName: 'Алекс Сергеев',
+    //         phone: '0974524641',
+    //         email: 'ShemyakinaN@ec.ua'
+    //     },
+    //     {
+    //         _id: 8,
+    //         fullName: 'Кира Воробьева',
+    //         phone: '0974246341',
+    //         email: 'Kira1990@ec.ua'
+    //     }
+    // ]
 };
 const url = 'http://easycode-js.herokuapp.com/';
 class Phonebook {
@@ -74,7 +74,6 @@ class Phonebook {
             getRequest.send();
     }
     reqestPost(firstName, lastName, phone, email){
-        console.log(firstName, lastName, phone, email)
         const newUser = {
             fullName: `${firstName} ${lastName}`,
             email: email,
@@ -82,29 +81,50 @@ class Phonebook {
         };
         let postRequest = new XMLHttpRequest();
         postRequest.addEventListener('readystatechange', () =>{
-            if(postRequest.readyState == 4){
-                console.log(newUser);
-                console.log(contactsDb);
-            }
+            if (postRequest.readyState == 4) alert('Information saved successfully');
         });
         postRequest.open('POST', url + 'DimaBerkutov/users', true);
         postRequest.setRequestHeader('Content-Type', 'application/json');
         postRequest.send(JSON.stringify(newUser));
     }
+    reqestDelete(id){
+        let postRequest = new XMLHttpRequest();
+        postRequest.addEventListener('readystatechange', () =>{
+            if (postRequest.readyState == 4) alert('Contact successfully deleted');
+        });
+        postRequest.open('DELETE', url + `DimaBerkutov/users/${id}`, true);
+        postRequest.setRequestHeader('Content-Type', 'application/json');
+        postRequest.send();
+        // let val3 = new PageRenderMain().renderTable(contactsDb.contactsBase);
+    }
+    // reqestPatch(firstName, lastName, phone, email){
+    //     const changeUser = {
+    //         fullName: `${firstName} ${lastName}`,
+    //         email: email,
+    //         phone: phone
+    //     };
+    //     let postRequest = new XMLHttpRequest();
+    //     postRequest.addEventListener('readystatechange', () =>{
+    //         if (postRequest.readyState == 4) alert('Information successfully updated');
+    //     });
+    //     postRequest.open('PATCH', url + 'DimaBerkutov/users', true);
+    //     postRequest.setRequestHeader('Content-Type', 'application/json');
+    //     postRequest.send(JSON.stringify(changeUser));
+    // }
     numberMethod(val){
+        let valNumber = '';
 //Проверка, что телефонный номер содержит только числа
         for (let i = 0; i < val.length; i++) {
-            if (isNaN(+val[i])) {
-                console.log('Error, please enter correct phone number');
-                return
-            }
-            this.formatMethod(val);
+            if (isNaN(val[i])) alert('Error, please enter correct phone number');
+            valNumber = val.replace(/\D/g, '');
         }
+        this.formatMethod(valNumber);
     }
     formatMethod(val){
-        let newNumber = `(${val.slice(0, 3)}) ${val.slice(3, 5)}-${val.slice(5, 7)}-${val.slice(7, 11)}`;
-        console.log(newNumber);
-        return newNumber;
+        let newNumber = `(${val.slice(0, 3)}) ${val.slice(3, 5)}-${val.slice(5, 7)}-${val.slice(7, 10)}`;
+        // console.log(newNumber);
+        let sss = document.getElementById('numbers_input').value = newNumber;
+        // console.log('dasdasd', document.getElementById('numbers_input').value = newNumber);
     }
 }
 //Добавление пользователей в объект
@@ -171,7 +191,7 @@ class SortUserClass extends Phonebook {
     }
     sortUser(val){
        contactsDb.contactsBase.sort((a, b) => {
-        if (val == 'name'){
+        if (val == 'name' || val == 'last name'){
             val = 'fullName';
         }
            let sss = document.body.querySelectorAll

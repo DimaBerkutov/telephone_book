@@ -13,6 +13,7 @@ class PageRenderHeader{
 class PageRenderMainSearch{
     constructor(){}
     renderTable(val){
+        let phonebookGet = new Phonebook().reqestGet();
         let form = '';
 // search
         form += `<form class="form-inline search-form">
@@ -64,10 +65,26 @@ class PageRenderMain{
     }
     clickSort(){
 //click    
+        //sort click    
         let clickBlock = document.getElementById('sort_click');
         clickBlock.addEventListener('click', event => {
             let phonebook6 = new SortUserClass().sortUser(event.target.innerHTML.toLowerCase());
-            this.renderTable();
+            this.renderTable(contactsDb.contactsBase);
+        });
+        //select contact click
+        let contactSelect = document.getElementById('bot_main').querySelector('tbody');
+        contactSelect.addEventListener('click', (event) => {
+            event.target.id = 'clickTd';
+            let name = document.getElementById('clickTd').parentElement.children[0].textContent;
+            let lastName = document.getElementById('clickTd').parentElement.children[1].textContent;
+            let email = document.getElementById('clickTd').parentElement.children[2].textContent;
+            contactsDb.contactsBase.forEach(elem => {
+                if(elem.fullName == undefined)elem.fullName == 'undefined';
+                if(elem.fullName == `${name} ${lastName}` && elem.email.toLocaleLowerCase() == email.toLocaleLowerCase()){
+                    console.log('qqq', elem._id);
+                    // let phonebookDelete = new Phonebook().reqestDelete(elem._id);
+                }
+            });
         });
     }
 //keypress

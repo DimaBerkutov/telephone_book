@@ -1,6 +1,3 @@
-/**
- * Created by user on 17.07.2017.
- */
 `use strict`;
 
 
@@ -35,12 +32,30 @@ class PageRenderMain{
                 </div>`;
         
         document.body.querySelector('main').innerHTML = `<div class="container"> ${input} ${keypad} </div>`;
-        console.log(document.getElementById('keypad'))
 // clicks
+        let inputSave = '';
 		document.getElementById('keypad').querySelectorAll('button').forEach(elem => {
-            elem.addEventListener('click', () => document.getElementById('numbers_input').value += elem.textContent);
+            elem.addEventListener('click', (event) => {
+                inputSave += event.target.innerHTML;
+                if(inputSave.length >= 10) inputSave = inputSave.slice(0, 9);
+                let phonebook1 = new Phonebook().numberMethod(inputSave);
+                inputSave = inputSave.replace(/\D/g, '');
+            });
         });
-		document.getElementById('dell_contact').onclick = () => document.getElementById('numbers_input').value = '';
+		document.getElementById('dell_contact').onclick = () => {
+            document.getElementById('numbers_input').value = '';
+            inputSave = '';
+        }
+//keypress
+        let press = document.getElementById('numbers_input');
+            console.log(press)
+        press.addEventListener('keypress', (event) => {
+            if(event.keyCode >= '112' && event.keyCode <= '123'){
+            console.log(event)
+                alert(event.code)
+                event.preventDefault();
+            }
+        });
     }
 }
 let KeypadHeader = new PageRenderHeader().renderTable();

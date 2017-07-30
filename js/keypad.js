@@ -35,10 +35,10 @@ class PageRenderMain{
         this.keypadInputSave();
     }
     keypadInputSave(){
-//class call
         let inputNumber = document.getElementById('numbers_input'),
             keypadStorage = new numberMethod(),
             inputSave = '';
+//class call
         let numberMethodCall = () => {
             let format = new numberMethod(inputSave, inputNumber);
             inputSave = inputSave.replace(/\D/g, '');

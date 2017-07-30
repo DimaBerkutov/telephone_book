@@ -10,7 +10,7 @@ let contactsDb = {
        url:'DimaBerkutov/users',
        method: 'GET'
     };
-const url = 'http://easycode-js.herokuapp.com/';
+const url = 'https://easycode-js.herokuapp.com/';
 class Phonebook {
     constructor(){}
     reqestGet(){

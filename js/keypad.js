@@ -42,6 +42,7 @@ class PageRenderMain{
         let numberMethodCall = () => {
             let format = new numberMethod(inputSave, inputNumber);
             inputSave = inputSave.replace(/\D/g, '');
+        console.log(inputSave)
         };
 //keypress input
         document.body.addEventListener('keydown', (event) => {

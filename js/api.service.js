@@ -80,14 +80,15 @@ class numberMethod extends Phonebook{
     constructor(val, inputNumber){
         super()
         let inputKeypad = '';
-        if(val !== 0 && val !== undefined){
-            inputKeypad = window.sessionStorage.setItem('keypad', val);
+        if(val !== undefined){
+            window.sessionStorage.setItem('keypad', inputKeypad);
             for (let i = 0; i < val.length; i++) {
                 if (isNaN(val[i])) alert('Error, please enter correct phone number');
-                inputKeypad = window.sessionStorage.setItem('keypad', val.replace(/\D/g, ''));
+                window.sessionStorage.setItem('keypad', val.replace(/\D/g, ''));
             }
         }
         let inputKeypadGet = window.sessionStorage.getItem('keypad');
+        if(inputKeypadGet == null) inputKeypadGet = '';
         let format = new formatMethod(inputKeypadGet, inputNumber);
     }
 }

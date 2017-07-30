@@ -5,7 +5,7 @@ class PageRenderHeader{
     renderTable(){
         let header = '';
         header += `<div class="container top-radius">
-                    <h2>Edit Contact</h2>
+                    <h2>${contactsDb.pages[2]}</h2>
                 </div>`;
         document.body.querySelector('header').innerHTML = header;
     }

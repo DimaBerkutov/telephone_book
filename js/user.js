@@ -5,7 +5,7 @@ class PageRenderHeader{
     renderTable(){
         let header = '';
         header += `<div class="container top-radius">
-                    <h2>User</h2>
+                    <h2>${contactsDb.pages[3]}</h2>
                 </div>`;
         document.body.querySelector('header').innerHTML = header;
     }
@@ -34,8 +34,10 @@ class PageRenderMain{
         iconsArr.forEach(elem => {
             let elemArr = elem.split(' ');
             photoIcons += `<div class="${elemArr[1]}">
-                            <div class= "options-icon"><span class="icon glyphicon ${elemArr[0]}" aria-hidden="true"></span></div>
-                            <span class = options-text">${elemArr[1]}</span>
+                            <div class="options-icon">
+                                <span class="icon glyphicon ${elemArr[0]} glyphicon_user" aria-hidden="true"></span>
+                            </div>
+                            <span class="options-text">${elemArr[1]}</span>
                         </div>`;
         })
         photoIcons += '</div>';

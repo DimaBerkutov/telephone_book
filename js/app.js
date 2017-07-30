@@ -4,43 +4,41 @@ class PageRenderHeader{
     constructor(){}
     renderTable(){
         let header = '';
-        header += `<div class="container top-radius">
-                        <h2>Contacts</h2>
+        header = `<div class="container top-radius">
+                        <h2>${contactsDb.pages[0]}</h2>
                     </div>`;
         document.body.querySelector('header').innerHTML = header;
-    }
-}
-class PageRenderMainSearch{
-    constructor(){}
-    renderTable(val){
         let phonebookGet = new Phonebook().reqestGet();
-        let form = '';
-// search
-        form += `<form class="form-inline search-form">
-                    <div class="form-group">
-                        <label class="sr-only" for="search">${val}</label>
-                        <input type="text" class="form-control" id="search" placeholder="Search">
-                    </div>
-                </form>`;
-                document.getElementById('top_main').innerHTML = form;
+        let val3 = new PageRenderMain().formSearch(contactsDb.contactsBase);
     }
 }
 class PageRenderMain{
     constructor(){}
-   
+    formSearch(base){
+// search
+        let form = `<form class="form-inline search-form">
+                        <div class="form-group">
+                            <label class="sr-only" for="search">${contactsDb.pages[0]}</label>
+                            <input type="text" class="form-control" id="search" placeholder="Search">
+                        </div>
+                    </form>`;
+        document.getElementById('top_main').innerHTML = `${form}`;
+        this.renderTable(base);
+    }
     renderTable(base){
-        let main = '',  table = '', tHead = '',  tBody = '';
-        
+        let table = '', tHead = '',  tBody = '';
 // thead
-        tHead += `<thead>
+        tHead = `<thead>
                     <tr id = "sort_click">`;
         contactsDb.contactsColumn.forEach(elem => {
             tHead += `<th>${elem}</th>`;
         });
-        tHead += `</tr></thead>`;
+        tHead +=    `</tr>
+                </thead>`;
 // tbody
-        tBody += '<tbody>';
         let name = [], lastName = [], email = [];
+        tBody = '<tbody>';
+        console.log('base', base.length)
         base.forEach(elem1 => {
             let fullName = elem1.fullName.split(' ');
             tBody += `<tr>
@@ -53,51 +51,65 @@ class PageRenderMain{
                     email.push(elem1.email);
         });
         tBody += `</tbody>`;
-        table += `<table class="table table-hover contacts">
+        table = `<table class="table table-hover contacts">
                     ${tHead}${tBody}
                 </table>`;
 // main
-        main += `${table}`;
-        document.getElementById('bot_main').innerHTML = main;
-        this.renderSearch()
+        document.getElementById('bot_main').innerHTML = `${table}`;
+
+        this.searchFieldStorage();
         this.clickSort();
-        this.keypressFilter();
+        this.selectContact();
+
     }
+//clicks   
     clickSort(){
-//click    
         //sort click    
         let clickBlock = document.getElementById('sort_click');
         clickBlock.addEventListener('click', event => {
-            let phonebook6 = new SortUserClass().sortUser(event.target.innerHTML.toLowerCase());
+            let phonebook6 = new SortUserClass(event.target.innerHTML.toLowerCase());
             this.renderTable(contactsDb.contactsBase);
         });
+    }
+    selectContact(){
         //select contact click
-        let contactSelect = document.getElementById('bot_main').querySelector('tbody');
+        let contactSelect = document.querySelector('main').querySelector('tbody');
         contactSelect.addEventListener('click', (event) => {
             event.target.id = 'clickTd';
             let name = document.getElementById('clickTd').parentElement.children[0].textContent;
             let lastName = document.getElementById('clickTd').parentElement.children[1].textContent;
             let email = document.getElementById('clickTd').parentElement.children[2].textContent;
             contactsDb.contactsBase.forEach(elem => {
-                if(elem.fullName == undefined)elem.fullName == 'undefined';
-                if(elem.fullName == `${name} ${lastName}` && elem.email.toLocaleLowerCase() == email.toLocaleLowerCase()){
-                    console.log('qqq', elem._id);
+                let definedLastName = `${name} ${lastName}`,
+                    undefinedLastName = `${name}`;
+                if(lastName == 'undefined') definedLastName = undefinedLastName;
+                if(elem.fullName == definedLastName && elem.email.toLocaleLowerCase() == email.toLocaleLowerCase()){
+                    console.log('_id', elem._id);
                     // let phonebookDelete = new Phonebook().reqestDelete(elem._id);
+                    // let phonebookdell = new DeleteUserClass(input.value);
                 }
             });
         });
     }
-//keypress
-    keypressFilter(){
-        let input = document.getElementById('search');
-        input.addEventListener('keyup', event => {
-            let phonebook7 = new FilterUserClass().filterUser(input.value);
+//search field storage
+    searchFieldStorage(){
+        let searchGet = window.sessionStorage.getItem('search'),
+            input = document.getElementById('search');
+        // console.log('searchGet', searchGet);
+        // console.log('input', input);
+        input.value = searchGet;
+        // console.log('input.value', input.value);
+        input.addEventListener('keyup', () => {
+            this.keypressFilter(input.value);
+        // console.log('keyup');
         });
     }
-     renderSearch(val){
+//keypress storage save
+    keypressFilter(value){
+        let inputStorage = window.sessionStorage.setItem('search', value);
+        // console.log('inputStorage')
+        let phonebook7 = new FilterUserClass(value);
+
     }
 }
-
-let val1 = new PageRenderHeader().renderTable();
-let val2 = new PageRenderMainSearch().renderTable();
-let val3 = new PageRenderMain().renderTable(contactsDb.contactsBase);
+let tableRender = new PageRenderHeader().renderTable();

@@ -208,6 +208,9 @@ h3 {
   table-layout: fixed;
 }
 
+.contacts tr:hover {
+    cursor: pointer;
+}
 .table > thead > tr > th {
   border: none;
 }
@@ -1445,3 +1448,6 @@ h3 {
 .glyphicon-menu-up:before {
   content: "\e260";
 }
+.glyphicon_user{
+    left: 24% !important;
+  }

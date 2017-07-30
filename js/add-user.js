@@ -5,7 +5,7 @@ class PageRenderHeader{
     renderTable(){
         let header = '';
         header += `<div class="container top-radius">
-                    <h2>Add user</h2>
+                    <h2>${contactsDb.pages[4]}</h2>
                 </div>`;
         document.body.querySelector('header').innerHTML = header;
     }
@@ -71,7 +71,7 @@ class PageRenderMain{
                 let lastName = document.getElementById('LastName').textContent;
                 let phone = document.getElementById('addmobilephone').textContent;
                 let email = document.getElementById('addemail').textContent;
-                let phonebookGet = new Phonebook().reqestPost(firstName, lastName, phone, email);
+                let phonebookGet = new Phonebook().reqestPost(firstName, lastName,email, phone);
             }
         });
     }

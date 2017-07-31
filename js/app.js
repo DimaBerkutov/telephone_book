@@ -11,7 +11,7 @@ class PageRenderMain{
     requestUsers(base){
         //  api.reqestGet();
          api.reqestGet().then(users => {
-             users.json()
+            //  users.json()
              console.log(users)
          });
 

@@ -1,68 +1,68 @@
 `use strict`;
 
-class PageRenderHeader{
-    constructor(){}
-    renderTable(){
-        let header = '';
-        header += `<div class="container top-radius">
-                    <h2>${contactsDb.pages[4]}</h2>
-                </div>`;
+class PageRenderMain{
+    constructor(){
+        let header = `<div class="container top-radius">
+                            <nav class="user-top-line">
+                                <a href="user.html">Cansel</a>
+                                <button class = "done-btn">Done</button>
+                            </nav>
+                            <h2>Add user</h2>
+                        </div>`;
         document.body.querySelector('header').innerHTML = header;
     }
-}
-class PageRenderBeforeHeader{
-    constructor(){}
     renderTable(){
-        let beforeHeader = '';
-        beforeHeader += `<nav class="user-top-line">
-                            <a href="user.html">Cansel</a>
-                            <button class = "done-btn">Done</button>
-                        </nav>`;
-        document.body.querySelector('header').children[0].insertAdjacentHTML('afterbegin', beforeHeader);
-    }
-}
-class PageRenderMain{
-    constructor(){}
-    renderTable(){
-        let contactNameInfo = ['First Name', 'Last Name', 'Company'],
-        contactContactInfo = ['add mobile phone', 'add home phone', 'add email', 'add address', 'add birthday', 'add social profile', 'add field'],
-        editMainInfo = '', scrollHolder = '';
 // name photo info
-        editMainInfo = `<div class="edit-main-info">
+        let editMainInfo = `<div class="edit-main-info">
                             <div class="edit-foto">
                                 <button class="add-foto-btn">
                                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span><span>add foto</span>
                                 </button>
                             </div>
                         <div class="main-info-holder">`;
-        contactNameInfo.forEach(elem => {
-            let elemId = elem.split(' ').join('');
+        let contactNameInfo = val => {
+            let valId = val.split(' ').join('');
             editMainInfo += `<div class="edit-field">
                                 <button href="#" class="add-btn">
                                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                                    <span id="${elemId}" class="contenteditable" contenteditable="true">${elem}</span>
+                                    <span id="${valId}" class="contenteditable" contenteditable="true">${val}</span>
                                 </button>
                             </div>`;
-        });
+        };
+        contactNameInfo('First Name');
+        contactNameInfo('Last Name');
+        contactNameInfo('Company');
+        
         editMainInfo += '</div></div>';
 // name photo info
-        scrollHolder += `<div class="scroll-holder">
+        let scrollHolder = `<div class="scroll-holder">
                             <div class="edit-info">`;
-        contactContactInfo.forEach(elem => {
-            let elemId = elem.split(' ').join('');
+        let contactContactInfo = val => {
+            let valId = val.split(' ').join('');
             scrollHolder += `<div class="edit-field">
                                 <button href="#" class="add-btn">
                                     <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-                                    <span id="${elemId}" class="contenteditable" contenteditable="true">${elem}</span>
+                                    <span id="${valId}" class="contenteditable" contenteditable="true">${val}</span>
                                 </button>
                             </div>`;
-        });
+        };
+        contactContactInfo('add mobile phone');
+        contactContactInfo('add home phone');
+        contactContactInfo('add email');
+        contactContactInfo('add address');
+        contactContactInfo('add birthday');
+        contactContactInfo('add social profile');
+        contactContactInfo('add field');
+
         scrollHolder += `<div class="edit-field">
                             <button href="#" class="delete-contact">delete contact</button>
                         </div></div></div>`;
         
         document.body.querySelector('main').innerHTML = `<div class="container"> ${editMainInfo} ${scrollHolder} </div>`;
+        this.mainClick();
+    }
 // click
+    mainClick(){
         let mainClick = document.body;
         mainClick.addEventListener('click', (event) => {
             if(event.target.className == 'contenteditable')event.target.style.backgroundColor = '#fff';
@@ -71,11 +71,9 @@ class PageRenderMain{
                 let lastName = document.getElementById('LastName').textContent;
                 let phone = document.getElementById('addmobilephone').textContent;
                 let email = document.getElementById('addemail').textContent;
-                let phonebookGet = new Phonebook().reqestPost(firstName, lastName,email, phone);
+                let apiGet = new Api().reqestPost(firstName, lastName,email, phone);
             }
         });
     }
 }
-let UserHeader = new PageRenderHeader().renderTable();
-let UserBeforeHeader = new PageRenderBeforeHeader().renderTable();
-let UserMain = new PageRenderMain().renderTable();
+let pageRenderMain = new PageRenderMain().renderTable();

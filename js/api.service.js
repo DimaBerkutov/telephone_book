@@ -1,20 +1,16 @@
 `use strict`;
 let contactsDb = {
-    pages: ['Contacts', 'Keypad', 'Edit contact', 'User', 'Add user'],
-    contactsColumn: ['Name', 'Last name', 'Email'],
     contactsBase: []
     // contactsBase: [{"_id":"597b41664994e4001185928e","fullName":"Сергей Якименко","email":"sergey@yakimenko.com","created":"2017-07-28T13:51:34.581Z","phone":"00000000"},{"_id":"597b45284994e40011859292","fullName":"qqqq","email":"qqqq@qqq.com","created":"2017-07-28T14:07:36.251Z","phone":"00000000"},{"_id":"597b40fb4994e4001185928c","fullName":"Екатерина Палкина","email":"ekaterina@palkina.com","created":"2017-07-28T13:49:47.479Z","phone":"00000000"},{"_id":"597b45ac4994e40011859293","fullName":"Dima","email":"faffaf@ukr.net","created":"2017-07-28T14:09:48.387Z","phone":"00000000"},{"_id":"597b46884994e40011859295","fullName":"Александр Руденко","email":"alexandr@rudenko.com","created":"2017-07-28T14:13:28.544Z","phone":"00000000"},{"_id":"597b40084994e40011859288","fullName":"Александр Челенко","email":"alexandr@chelenco.com","created":"2017-07-28T13:45:44.940Z","phone":"00000000"},{"_id":"597b3fdd4994e40011859287","fullName":"Вова Челенко","email":"vova@chelenco.com","created":"2017-07-28T13:45:01.648Z","phone":"00000000"},{"_id":"597b3fab4994e40011859286","fullName":"Сергей Заворотнюк","email":"sergey@zavorotnuk.com","created":"2017-07-28T13:44:11.129Z","phone":"00000000"},{"_id":"597b3f854994e40011859285","fullName":"Юлия Прилучная","email":"july@priluchnaya.com","created":"2017-07-28T13:43:33.981Z","phone":"00000000"},{"_id":"597b3f6e4994e40011859284","fullName":"Евгения Жукова","email":"evgenia@jucova.com","created":"2017-07-28T13:43:10.803Z","phone":"00000000"},{"_id":"597b41c74994e4001185928f","fullName":"Антон Старшов","email":"starshov@andon.com","created":"2017-07-28T13:53:11.827Z","phone":"00000000"},{"_id":"597b3f3d4994e40011859281","fullName":"Марина Осипова","email":"marina@osipova.com","created":"2017-07-28T13:42:21.729Z","phone":"00000000"},{"_id":"597c4cdd1b2239001113a672","fullName":"Кристина Морозова","email":"khristina@morozova.com","created":"2017-07-29T08:52:45.760Z","phone":"00000000"},{"_id":"597c676a2ce1e50011f179ca","fullName":"Ольга Дрозд","email":"olga@drozd.com","created":"2017-07-29T10:46:02.893Z","phone":"0948982784"}]
 
 };
-    let sds = {
-       url:'DimaBerkutov/users',
-       method: 'GET'
-    };
 const url = 'https://easycode-js.herokuapp.com/';
-class Phonebook {
+class Api {
     constructor(){}
     reqestGet(){
-        fetch(`${url}DimaBerkutov/users`, {
+        console.log('this', this)
+        console.log('this.url', this.url)
+        return fetch(`${url}DimaBerkutov/users`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'
@@ -75,33 +71,16 @@ class Phonebook {
     //     postRequest.send(JSON.stringify(changeUser));
     // }
 }
-//Проверка, что телефонный номер содержит только числа
-class numberMethod extends Phonebook{
-    constructor(val, inputNumber){
-        super()
-        let inputKeypad = '';
-        if(val !== undefined){
-            window.sessionStorage.setItem('keypad', inputKeypad);
-            for (let i = 0; i < val.length; i++) {
-                if (isNaN(val[i])) alert('Error, please enter correct phone number');
-                window.sessionStorage.setItem('keypad', val.replace(/\D/g, ''));
-            }
-        }
-        let inputKeypadGet = window.sessionStorage.getItem('keypad');
-        if(inputKeypadGet == null) inputKeypadGet = '';
-        let format = new formatMethod(inputKeypadGet, inputNumber);
-    }
-}
-//Формат ввода номера телефона
-class formatMethod extends Phonebook{
-    constructor(val, formatMethod){
-        super()
-        let inputNumber = document.getElementById('numbers_input');
-        let newNumber = `(${val.slice(0, 3)})-${val.slice(3, 5)}-${val.slice(5, 7)}-${val.slice(7, 10)}`;
-        if(val !== undefined && val.length !== 0) inputNumber.textContent = newNumber.replace(/-+$/, '');
-        else inputNumber.textContent = newNumber.replace(/[()-]+$/, '');
-    }
-}
+const api = new Api();
+
+
+
+
+
+
+// class Phonebook {
+//     constructor(){}
+// }
 //Добавление пользователей в объект
 // class AddUserClass extends Phonebook {
 //     constructor(){
@@ -159,42 +138,6 @@ class formatMethod extends Phonebook{
 //         console.log("6) db after edit User", contactsDb.contactsBase);
 //     }
 // }
-//Сортировка пользователей по номеру телефона, фамилии, имени и тд, по любому из свойств пользователя
-class SortUserClass extends Phonebook {
-    constructor(val){
-        super()
-       contactsDb.contactsBase.sort((a, b) => {
-        if (val == 'name' || val == 'last name'){
-            val = 'fullName';
-        }
-        let sss = document.body.querySelectorAll
-        if (a[val] > b[val]) {
-            return 1
-        }
-        if (a[val] < b[val]) {
-            return -1
-        }
-        // a должно быть равным b
-            return 0
-        });
-    }
-}
-//Фильтр по указанному свойству
-class FilterUserClass extends Phonebook {
-    constructor(val){
-        super()
-        let filterDb = [];
-        contactsDb.contactsBase.forEach((elem, index) => {
-            let filterLength = elem.fullName.slice(0, val.length);
-                console.log('filter')
-            if (filterLength == val ){
-                filterDb.push(elem);
-            }
-        });
-                console.log('filterDb', filterDb)
-        let baseRender = new PageRenderMain().renderTable(filterDb);
-    }
-}
 
 
 // let phonebookGet = new Phonebook().reqestGet();

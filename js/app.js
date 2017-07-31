@@ -1,24 +1,18 @@
 `use strict`;
 
-class PageRenderHeader{
-    constructor(){}
-    renderTable(){
+class PageRenderMain{
+    constructor(){
         let header = '';
         header = `<div class="container top-radius">
-                        <h2>${contactsDb.pages[0]}</h2>
+                        <h2>Contacts</h2>
                     </div>`;
         document.body.querySelector('header').innerHTML = header;
-        let phonebookGet = new Phonebook().reqestGet();
-        let val3 = new PageRenderMain().formSearch(contactsDb.contactsBase);
     }
-}
-class PageRenderMain{
-    constructor(){}
-    formSearch(base){
 // search
+    formSearch(base){
         let form = `<form class="form-inline search-form">
                         <div class="form-group">
-                            <label class="sr-only" for="search">${contactsDb.pages[0]}</label>
+                            <label class="sr-only" for="search">Contacts</label>
                             <input type="text" class="form-control" id="search" placeholder="Search">
                         </div>
                     </form>`;
@@ -26,18 +20,25 @@ class PageRenderMain{
         this.renderTable(base);
     }
     renderTable(base){
-        let table = '', tHead = '',  tBody = '';
+         api.reqestGet().then((users) => {
+             console.log('users', users)
+             console.log('this', this)
+         })
 // thead
-        tHead = `<thead>
+        let tHead = `<thead>
                     <tr id = "sort_click">`;
-        contactsDb.contactsColumn.forEach(elem => {
-            tHead += `<th>${elem}</th>`;
-        });
+        let contactsColumn = val => {
+            tHead += `<th>${val}</th>`;
+        };
+        contactsColumn('Name');
+        contactsColumn('Last name');
+        contactsColumn('Email');
+        
         tHead +=    `</tr>
                 </thead>`;
 // tbody
         let name = [], lastName = [], email = [];
-        tBody = '<tbody>';
+        let tBody = '<tbody>';
         console.log('base', base.length)
         base.forEach(elem1 => {
             let fullName = elem1.fullName.split(' ');
@@ -51,23 +52,22 @@ class PageRenderMain{
                     email.push(elem1.email);
         });
         tBody += `</tbody>`;
-        table = `<table class="table table-hover contacts">
-                    ${tHead}${tBody}
-                </table>`;
+        let table = `<table class="table table-hover contacts">
+                        ${tHead}${tBody}
+                    </table>`;
 // main
         document.getElementById('bot_main').innerHTML = `${table}`;
 
         this.searchFieldStorage();
         this.clickSort();
         this.selectContact();
-
     }
 //clicks   
     clickSort(){
         //sort click    
         let clickBlock = document.getElementById('sort_click');
         clickBlock.addEventListener('click', event => {
-            let phonebook6 = new SortUserClass(event.target.innerHTML.toLowerCase());
+            this.SortUserClass(event.target.innerHTML.toLowerCase());
             this.renderTable(contactsDb.contactsBase);
         });
     }
@@ -85,7 +85,7 @@ class PageRenderMain{
                 if(lastName == 'undefined') definedLastName = undefinedLastName;
                 if(elem.fullName == definedLastName && elem.email.toLocaleLowerCase() == email.toLocaleLowerCase()){
                     console.log('_id', elem._id);
-                    // let phonebookDelete = new Phonebook().reqestDelete(elem._id);
+                    // let apiDelete = new Api().reqestDelete(elem._id);
                     // let phonebookdell = new DeleteUserClass(input.value);
                 }
             });
@@ -108,8 +108,39 @@ class PageRenderMain{
     keypressFilter(value){
         let inputStorage = window.sessionStorage.setItem('search', value);
         // console.log('inputStorage')
-        let phonebook7 = new FilterUserClass(value);
+        this.FilterUserClass(value);
 
     }
+//Сортировка пользователей по номеру телефона, фамилии, имени и тд, по любому из свойств пользователя
+    SortUserClass(val){
+       contactsDb.contactsBase.sort((a, b) => {
+        if (val == 'name' || val == 'last name'){
+            val = 'fullName';
+        }
+        let sss = document.body.querySelectorAll
+        if (a[val] > b[val]) {
+            return 1
+        }
+        if (a[val] < b[val]) {
+            return -1
+        }
+        // a должно быть равным b
+            return 0
+        });
+    }
+//Фильтр по указанному свойству
+    FilterUserClass(val){
+        let filterDb = [];
+        contactsDb.contactsBase.forEach((elem, index) => {
+            let filterLength = elem.fullName.slice(0, val.length);
+                console.log('filter')
+            if (filterLength == val ){
+                filterDb.push(elem);
+            }
+        });
+                console.log('filterDb', filterDb)
+        let baseRender = new PageRenderMain().renderTable(filterDb);
+    }
 }
-let tableRender = new PageRenderHeader().renderTable();
+
+let val3 = new PageRenderMain().formSearch(contactsDb.contactsBase);

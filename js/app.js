@@ -8,6 +8,15 @@ class PageRenderMain{
                     </div>`;
         document.body.querySelector('header').innerHTML = header;
     }
+    requestUsers(base){
+        //  api.reqestGet();
+         api.reqestGet().then(users => {
+             users.json()
+             console.log(users)
+         });
+
+        this.formSearch(base);
+    }
 // search
     formSearch(base){
         let form = `<form class="form-inline search-form">
@@ -20,47 +29,48 @@ class PageRenderMain{
         this.renderTable(base);
     }
     renderTable(base){
-         api.reqestGet().then((users) => {
-             console.log('users', users)
-             console.log('this', this)
-         })
+        //  api.reqestGet().then(json => {
+            // console.log('response', json);
+            //  console.log('users', users)
+            //  console.log('contactsDb.contactsBase', contactsDb.contactsBase)
 // thead
-        let tHead = `<thead>
-                    <tr id = "sort_click">`;
-        let contactsColumn = val => {
-            tHead += `<th>${val}</th>`;
-        };
-        contactsColumn('Name');
-        contactsColumn('Last name');
-        contactsColumn('Email');
-        
-        tHead +=    `</tr>
-                </thead>`;
+            let tHead = `<thead>
+                        <tr id = "sort_click">`;
+            let contactsColumn = val => {
+                tHead += `<th>${val}</th>`;
+            };
+            contactsColumn('Name');
+            contactsColumn('Last name');
+            contactsColumn('Email');
+            
+            tHead +=    `</tr>
+                    </thead>`;
 // tbody
-        let name = [], lastName = [], email = [];
-        let tBody = '<tbody>';
-        console.log('base', base.length)
-        base.forEach(elem1 => {
-            let fullName = elem1.fullName.split(' ');
-            tBody += `<tr>
-                        <td>${fullName[0]}</td>
-                        <td>${fullName[1]}</td>
-                        <td>${elem1.email}</td>
-                    </tr>`;
-                    name.push(fullName[0]);
-                    lastName.push(fullName[1]);
-                    email.push(elem1.email);
-        });
-        tBody += `</tbody>`;
-        let table = `<table class="table table-hover contacts">
-                        ${tHead}${tBody}
-                    </table>`;
+            let name = [], lastName = [], email = [];
+            let tBody = '<tbody>';
+            console.log('base', base.length)
+            base.forEach(elem1 => {
+                let fullName = elem1.fullName.split(' ');
+                tBody += `<tr>
+                            <td>${fullName[0]}</td>
+                            <td>${fullName[1]}</td>
+                            <td>${elem1.email}</td>
+                        </tr>`;
+                        name.push(fullName[0]);
+                        lastName.push(fullName[1]);
+                        email.push(elem1.email);
+            });
+            tBody += `</tbody>`;
+            let table = `<table class="table table-hover contacts">
+                            ${tHead}${tBody}
+                        </table>`;
 // main
-        document.getElementById('bot_main').innerHTML = `${table}`;
-
-        this.searchFieldStorage();
-        this.clickSort();
-        this.selectContact();
+            document.getElementById('bot_main').innerHTML = `${table}`;
+            
+            this.searchFieldStorage();
+            this.clickSort();
+            this.selectContact();
+        //  })
     }
 //clicks   
     clickSort(){
@@ -85,8 +95,7 @@ class PageRenderMain{
                 if(lastName == 'undefined') definedLastName = undefinedLastName;
                 if(elem.fullName == definedLastName && elem.email.toLocaleLowerCase() == email.toLocaleLowerCase()){
                     console.log('_id', elem._id);
-                    // let apiDelete = new Api().reqestDelete(elem._id);
-                    // let phonebookdell = new DeleteUserClass(input.value);
+                    // api.reqestDelete(elem._id);
                 }
             });
         });
@@ -143,4 +152,4 @@ class PageRenderMain{
     }
 }
 
-let val3 = new PageRenderMain().formSearch(contactsDb.contactsBase);
+let val3 = new PageRenderMain().requestUsers(contactsDb.contactsBase);

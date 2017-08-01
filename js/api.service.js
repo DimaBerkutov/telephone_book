@@ -22,6 +22,9 @@ class Api {
             return response.json()
         }).then(json => {
             contactsDb.contactsBase = json;
+            app.state.db = json;
+            console.log('App.state.db!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', app.state.db)
+            // App.state.db
             console.log('parsed json', json)
         }).catch(e => {
             console.log('parsing failed', e)
@@ -74,6 +77,7 @@ class Api {
     // }
 }
 const api = new Api(constUrl + 'DimaBerkutov/users/');
+console.log('apiapiapiapiapiapiapiapiapiapiapiapiapiapiapiapiapiapiapiapiapiapiapiapiapiapiapiapi', api)
 
 
 

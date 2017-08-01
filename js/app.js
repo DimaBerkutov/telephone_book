@@ -1,6 +1,6 @@
 `use strict`;
 
-class PageRenderMain{
+class Contacts{
     constructor(){
         let header = '';
         header = `<div class="container top-radius">
@@ -12,7 +12,7 @@ class PageRenderMain{
         //  api.reqestGet();
          api.reqestGet().then(users => {
             //  users.json()
-             console.log(users)
+             console.log('users!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', users)
          });
 
         this.formSearch(base);
@@ -152,4 +152,4 @@ class PageRenderMain{
     }
 }
 
-let val3 = new PageRenderMain().requestUsers(contactsDb.contactsBase);
+// const contacts = new Contacts().requestUsers(contactsDb.contactsBase);

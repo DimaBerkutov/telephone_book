@@ -86,7 +86,7 @@ class Contacts{
             let name = document.getElementById('clickTd').parentElement.children[0].textContent;
             let lastName = document.getElementById('clickTd').parentElement.children[1].textContent;
             let email = document.getElementById('clickTd').parentElement.children[2].textContent;
-            contactsDb.contactsBase.forEach(elem => {
+            this.appState.db.users.forEach(elem => {
                 let definedLastName = `${name} ${lastName}`,
                     undefinedLastName = `${name}`;
                 if(lastName == 'undefined') definedLastName = undefinedLastName;

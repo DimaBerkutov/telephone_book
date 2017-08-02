@@ -1,11 +1,14 @@
 `use strict`;
 
-class PageRenderMain{
+class EditUser{
     constructor(){
         let header = `<div class="container top-radius">
                     <h2>Edit contact</h2>
                 </div>`;
         document.body.querySelector('header').innerHTML = header;
+    }
+    requestUsers(){
+        this.renderTable();
     }
     renderTable(){
 // name photo info
@@ -48,7 +51,8 @@ class PageRenderMain{
                             <button href="#" class="delete-contact">delete contact</button>
                         </div></div></div>`;
         
-        document.body.querySelector('main').innerHTML = `<div class="container"> ${editMainInfo} ${scrollHolder} </div>`;
+        document.getElementById('top_main').innerHTML = ``;
+        document.getElementById('bot_main').innerHTML = `${editMainInfo} ${scrollHolder}`;
         this.mainClick();
     }
 // click
@@ -59,4 +63,3 @@ class PageRenderMain{
         });
     }
 }
-let pageRenderMain = new PageRenderMain().renderTable();

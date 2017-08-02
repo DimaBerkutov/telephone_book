@@ -1,6 +1,6 @@
 `use strict`;
 
-class PageRenderMain{
+class User{
     constructor(){
         let header = `<div class="container top-radius">
                         <div class="user-top-line">
@@ -10,6 +10,9 @@ class PageRenderMain{
                         <h2>User</h2>
                     </div>`;
         document.body.querySelector('header').innerHTML = header;
+    }
+    requestUsers(){
+        this.renderTable();
     }
     renderTable(){
 // photo and icons
@@ -52,7 +55,7 @@ class PageRenderMain{
 
         phonesOptions += '</div>';
         
-		document.body.querySelector('main').innerHTML = `<div class="container"> ${photoIcons} ${phonesOptions} </div>`;
+        document.getElementById('top_main').innerHTML = ``;
+        document.getElementById('bot_main').innerHTML = `${photoIcons} ${phonesOptions}`;
     }
 }
-let pageRenderMain = new PageRenderMain().renderTable();

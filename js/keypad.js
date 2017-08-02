@@ -1,11 +1,14 @@
 `use strict`;
 
-class PageRenderMain{
+class Keypad{
     constructor(){
         let header = `<div class="container top-radius">
                         <h2>Keypad</h2>
                     </div>`;
         document.body.querySelector('header').innerHTML = header;
+    }
+    requestUsers(){
+        this.renderTable();
     }
     renderTable(){
 // input
@@ -25,7 +28,8 @@ class PageRenderMain{
                     <button class="key glyphicon glyphicon-earphone"></button>
                 </div>`;
         
-        document.body.querySelector('main').innerHTML = `<div class="container"> ${input} ${keypad} </div>`;
+        document.getElementById('top_main').innerHTML = ``;
+        document.getElementById('bot_main').innerHTML = `${input} ${keypad}`;
         this.keypadInputSave();
     }
     keypadInputSave(){
@@ -78,4 +82,3 @@ class PageRenderMain{
         else inputNumber.textContent = newNumber.replace(/[()-]+$/, '');
     }
 }
-let pageRenderMain = new PageRenderMain().renderTable();

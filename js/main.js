@@ -1,24 +1,47 @@
 `use strict`;
 class App{
     constructor(){
-        console.log('this_base', this)
         this.state = {
-            db: [],
-            locals: {}
+            db: {
+                users: []
+            },
+            locals: {
+                newDb: []
+            }
         }
         this.ui = {
-            contacts: new Contacts(),
-            // keypad: new Keypad(),
-            // editUser: new EditUser(),
-            // user: new User(),
-            // addUser: new AddUser()
+            index: new Contacts(this.state),
+            keypad: new Keypad(),
+            editContact: new EditUser(),
+            user: new User(),
+            addUser: new AddUser()
         }
+        this.render('index');
+        this.router();
     }
-    render(){
-        console.log('this.state!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', this.state.db)
-        this.ui.contacts.requestUsers(this.state.db);
+    router(){
+        const main = document.querySelector('main');
+        const updateState = (state) => {
+            const regExpFunc = (string, a1, a2, a3) => [a1, a2.toUpperCase(), a3].join('');
+            let newRegExpFunc = state.replace(/(\w*)-(\w)(\w*)/g, regExpFunc);
+            newRegExpFunc = newRegExpFunc.replace(/.html/g, '');
+            this.render(newRegExpFunc);
+        }
+        const links = [...document.querySelector('.main-nav').querySelectorAll('a')];
+        links.forEach(elem => {
+            let href = elem.getAttribute('href');
+            elem.addEventListener('click', e => {
+                e.preventDefault();
+                updateState(href);;
+                history.pushState(href, href, href);
+            })
+        });
+        window.addEventListener('popstate', event => {
+            updateState(e.state);
+        })
+    }
+    render(page){;
+        this.ui[page].requestUsers();
     }
 }
 const app = new App();
-app.render();
-console.log('appStart!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!', app)

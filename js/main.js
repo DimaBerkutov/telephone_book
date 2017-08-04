@@ -6,12 +6,20 @@ class App{
                 users: []
             },
             locals: {
-                newDb: []
+                newDb: [],
+                contactsInput: '',
+                keypadNumm: ''
+            },
+            logins: {
+                login: 'dima',
+                password: 'dima',
+                loginConfirm: '',
+                passwordConfirm: ''
             }
         }
         this.ui = {
             index: new Contacts(this.state),
-            keypad: new Keypad(),
+            keypad: new Keypad(this.state),
             editContact: new EditUser(),
             user: new User(),
             addUser: new AddUser()
@@ -19,6 +27,7 @@ class App{
         this.render('index');
         this.router();
     }
+
     router(){
         const main = document.querySelector('main');
         const updateState = (state) => {
@@ -40,8 +49,9 @@ class App{
             updateState(e.state);
         })
     }
-    render(page){;
-        this.ui[page].requestUsers();
+
+    render(page, user){;
+        this.ui[page].requestUsers(user);
     }
 }
 const app = new App();

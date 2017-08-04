@@ -324,13 +324,15 @@ h3 {
   outline-color: gray;
 }
 
-.done-btn {
+.done-btn,
+.edit-btn {
   background: transparent;
   border: none;
   outline: none;
 }
 
-.done-btn:hover {
+.done-btn:hover,
+.edit-btn:hover {
   color: #777;
 }
 

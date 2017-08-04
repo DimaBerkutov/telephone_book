@@ -2,14 +2,13 @@
 
 class User{
     constructor(){
-        let header = `<div class="container top-radius">
+        this.header = `<div class="container top-radius">
                         <div class="user-top-line">
                             <a href="index.html"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>Contacts</a>
                             <a href="edit-contact.html">Edit</a>
                         </div>
                         <h2>User</h2>
                     </div>`;
-        document.body.querySelector('header').innerHTML = header;
     }
     requestUsers(){
         this.renderTable();
@@ -55,6 +54,8 @@ class User{
 
         phonesOptions += '</div>';
         
+        
+        document.body.querySelector('header').innerHTML = this.header;
         document.getElementById('top_main').innerHTML = ``;
         document.getElementById('bot_main').innerHTML = `${photoIcons} ${phonesOptions}`;
     }

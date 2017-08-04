@@ -24,48 +24,58 @@ class Api {
         //     console.log('parsing failed', e)
         // })
     }
-    reqestPost(name, lastName ,email, phone){
-        console.log(name ,email, phone)
-        fetch(this.url, {
+    reqestPost(name, lastName, email, phone){
+        return fetch(`${this.url}users`, {
             method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
             body: JSON.stringify({
                 fullName: `${name} ${lastName}`,
                 email: email,
                 phone: phone
             })
         }).then(response => {
-            alert('Information saved successfully');
+            return response.blob();
+            if(response.status == 200) alert('Information saved successfully');
+            else return alert('Error, try again later!');
         }).catch(e => {
             console.log(e);
         });
     }
     reqestDelete(id){        
-        fetch(this.url + id, {
+        return fetch(`${this.url}users/${id}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
             }
         }).then(response => {
-            alert('Contact successfully deleted');
+            if(response.status == 200) alert('Contact successfully deleted');
+            else return alert('Error, try again later!');
         }).catch(e => {
             console.log(e);
         });
         // let val3 = new PageRenderMain().renderTable(contactsDb.contactsBase);
     }
-    // reqestPatch(firstName, lastName, phone, email){
-    //     const changeUser = {
-    //         fullName: `${firstName} ${lastName}`,
-    //         email: email,
-    //         phone: phone
-    //     };
-    //     let postRequest = new XMLHttpRequest();
-    //     postRequest.addEventListener('readystatechange', () =>{
-    //         if (postRequest.readyState == 4) alert('Information successfully updated');
-    //     });
-    //     postRequest.open('PATCH', url + 'DimaBerkutov/users', true);
-    //     postRequest.setRequestHeader('Content-Type', 'application/json');
-    //     postRequest.send(JSON.stringify(changeUser));
-    // }
+    reqestPatch(firstName, lastName, phone, email, id){
+        console.log(firstName, lastName, email, phone, id)
+        return fetch(`${this.url}users/${id}`, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                fullName: `${name} ${lastName}`,
+                email: email,
+                phone: phone
+            })
+        }).then(response => {
+            if(response.status == 200) alert('Information saved successfully');
+            else return alert('Error, try again later!');
+        }).catch(e => {
+            console.log(e);
+        });
+    }
 }
 const constUrl = 'https://easycode-js.herokuapp.com/';
 const api = new Api(constUrl + 'DimaBerkutov/');

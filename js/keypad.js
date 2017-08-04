@@ -1,11 +1,11 @@
 `use strict`;
 
 class Keypad{
-    constructor(){
-        let header = `<div class="container top-radius">
+    constructor(appState){
+        this.appState = appState;
+        this.header = `<div class="container top-radius">
                         <h2>Keypad</h2>
                     </div>`;
-        document.body.querySelector('header').innerHTML = header;
     }
     requestUsers(){
         this.renderTable();
@@ -28,17 +28,20 @@ class Keypad{
                     <button class="key glyphicon glyphicon-earphone"></button>
                 </div>`;
         
+
+        document.body.querySelector('header').innerHTML = this.header;
         document.getElementById('top_main').innerHTML = ``;
         document.getElementById('bot_main').innerHTML = `${input} ${keypad}`;
         this.keypadInputSave();
     }
     keypadInputSave(){
         let inputNumber = document.getElementById('numbers_input'),
-            inputSave = '';
+            inputSave = this.appState.locals.keypadNumm;
             this.numberMethod();
 //method call
         let numberMethodCall = () => {
-            this.numberMethod(inputSave, inputNumber);
+            if(inputSave.length >= 10) inputSave = inputSave.slice(0, 9);
+            this.numberMethod(inputSave);
             inputSave = inputSave.replace(/\D/g, '');
         };
 //keypress input
@@ -51,31 +54,27 @@ class Keypad{
 // click input
         document.getElementById('keypad').addEventListener('click', (event) => {
             inputSave += event.target.innerHTML;
-            if(inputSave.length >= 10) inputSave = inputSave.slice(0, 9);
             numberMethodCall();
         });
 // click input dell
-		document.getElementById('dell_contact').onclick = () => {
+		document.getElementById('dell_contact').addEventListener('click', () => {
             inputSave = '';
-            numberMethodCall();
-        }
+            inputNumber.textContent = '';
+            app.state.locals.keypadNumm ='';
+        });
     }
 //Проверка, что телефонный номер содержит только числа
-    numberMethod(val, inputNumber){
-        let inputKeypad = '';
+    numberMethod(val){
         if(val !== undefined){
-            window.sessionStorage.setItem('keypad', inputKeypad);
             for (let i = 0; i < val.length; i++) {
                 if (isNaN(val[i])) alert('Error, please enter correct phone number');
-                window.sessionStorage.setItem('keypad', val.replace(/\D/g, ''));
+                app.state.locals.keypadNumm = val.replace(/\D/g, '');
             }
         }
-        let inputKeypadGet = window.sessionStorage.getItem('keypad');
-        if(inputKeypadGet == null) inputKeypadGet = '';
-        this.formatMethod(inputKeypadGet, inputNumber);
+        this.formatMethod(this.appState.locals.keypadNumm);
     }
 //Формат ввода номера телефона
-    formatMethod(val, formatMethod){
+    formatMethod(val){
         let inputNumber = document.getElementById('numbers_input');
         let newNumber = `(${val.slice(0, 3)})-${val.slice(3, 5)}-${val.slice(5, 7)}-${val.slice(7, 10)}`;
         if(val !== undefined && val.length !== 0) inputNumber.textContent = newNumber.replace(/-+$/, '');

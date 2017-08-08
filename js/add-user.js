@@ -11,7 +11,9 @@ class AddUser{
                         </div>`;
     }
     requestUsers(){
-        this.renderTable();
+        if(window.localStorage.getItem('login') !== '' && window.localStorage.getItem('login') !== null){
+            this.renderTable();
+        }
     }
     renderTable(){
 // name photo info
@@ -66,6 +68,7 @@ class AddUser{
         mainClick.addEventListener('click', (event) => {
             if(event.target.className == 'contenteditable')event.target.style.backgroundColor = '#fff';
             if(event.target.className == 'done-btn'){
+                console.log('3123213123')
                 let firstName = document.getElementById('firstName').textContent;
                 let lastName = document.getElementById('lastName').textContent;
                 let email = document.getElementById('addEmail').textContent;

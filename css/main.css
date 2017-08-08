@@ -324,6 +324,7 @@ h3 {
   outline-color: gray;
 }
 
+.log_out,
 .done-btn,
 .edit-btn {
   background: transparent;
@@ -331,6 +332,7 @@ h3 {
   outline: none;
 }
 
+.log_out,
 .done-btn:hover,
 .edit-btn:hover {
   color: #777;

@@ -5,36 +5,40 @@ class Contacts{
         this.appState = appState;
 
         this.header = `<div class="container top-radius">
+                            <nav class="user-top-line">
+                                <button class ="log_out">Log out</button>
+                            </nav>
                         <h2>Contacts</h2>
                     </div>`;
     }
     requestUsers(){
-         api.reqestGet().then(json =>  this.formSearch(app.state.db = json));
+        if(window.localStorage.getItem('login') == ''){
+        // if(app.state.db.users){
+            window.localStorage.clear('login');
+        }
+            api.reqestGet().then(json =>  this.formSearch(app.state.db = json));
+        // }else this.formSearch();
     }
 // login
     formSearch(){
         let header = `<div class="container top-radius">
-                        <h2>login: dima, password: dima</h2>
+                        <h2>Enter login</h2>
                     </div>`;
 
         let login = `<form class="form-inline search-form">
                         <div class="form-group">
-                            <label class="sr-only" for="login">Contacts</label>
+                            <label class="sr-only" for="login">Login</label>
                             <input type="text" class="form-control" id="login" placeholder="Login">
                         </div>
-                        <div class="form-group">
-                            <label class="sr-only" for="password">Contacts</label>
-                            <input type="text" class="form-control" id="password" placeholder="Password">
-                        </div>
                         </div>
                         <div class="form-group">
-                            <label class="sr-only" for="password">Contacts</label>
                             <button type="button" class="form-control" id='login_btn'>Login</button>
                         </div>
                     </form>`;
-        if(app.state.logins.loginConfirm == 'dima' && app.state.logins.passwordConfirm == 'dima'){
+        if(window.localStorage.getItem('login') !== null && app.state.db.users){
             this.formSearchRender();
-        }else{
+            this.logOut();
+        }else{            
             document.body.querySelector('header').innerHTML = header;
             document.getElementById('top_main').innerHTML = `${login}`;
             document.getElementById('bot_main').innerHTML = '';
@@ -174,12 +178,19 @@ class Contacts{
     login(){
         document.getElementById('login_btn').addEventListener('click', () => {
             let login = document.getElementById('login').value;
-            let password = document.getElementById('password').value;
-            if(login == this.appState.logins.login && password == this.appState.logins.password){
-                app.state.logins.loginConfirm = this.appState.logins.login;
-                app.state.logins.passwordConfirm = this.appState.logins.password;
-                this.formSearchRender();
-            }
+            console.log(login)
+            // if(login == '') {
+            //     alert('Please, enter correct login!');
+            // }
+            window.localStorage.setItem('login', login);
+            this.requestUsers();
         });
+    }
+    logOut(){
+        console.log(document.getElementById('log_out'))
+        document.querySelector('.log_out').addEventListener('click', () => {
+            window.localStorage.clear();
+            this.formSearch()
+        })
     }
 }

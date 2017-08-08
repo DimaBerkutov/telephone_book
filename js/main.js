@@ -36,14 +36,25 @@ class App{
             newRegExpFunc = newRegExpFunc.replace(/.html/g, '');
             this.render(newRegExpFunc);
         }
-        const links = [...document.querySelector('.main-nav').querySelectorAll('a')];
+        // const links = [...document.querySelector('.main-nav').querySelectorAll('a')];
+        const links = [...document.body.querySelectorAll('a')];
+        console.log(links)
         links.forEach(elem => {
             let href = elem.getAttribute('href');
             elem.addEventListener('click', e => {
                 e.preventDefault();
                 updateState(href);;
                 history.pushState(href, href, href);
-            })
+            })           
+                
+            // elem.addEventListener('mousedown', (event) => {
+            //     if(event.which == 2){
+            //         e.preventDefault();
+            //         updateState(href);;
+            //         history.pushState(href, href, href);
+            //         console.log('event', event)
+            //     }
+            // });
         });
         window.addEventListener('popstate', event => {
             updateState(e.state);

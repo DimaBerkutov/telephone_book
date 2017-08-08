@@ -11,8 +11,10 @@ class EditUser{
                         </div>`;
     }
     requestUsers(user){
-        this.user = user;
-        this.renderTable();
+        if(window.localStorage.getItem('login') !== '' && window.localStorage.getItem('login') !== null){
+            this.user = user;
+            this.renderTable();
+        }
     }
     renderTable(){
         console.log(this.user);

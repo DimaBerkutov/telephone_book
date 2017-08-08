@@ -11,7 +11,9 @@ class User{
                     </div>`;
     }
     requestUsers(){
-        this.renderTable();
+        if(window.localStorage.getItem('login') !== '' && window.localStorage.getItem('login') !== null){
+            this.renderTable();
+        }
     }
     renderTable(){
 // photo and icons

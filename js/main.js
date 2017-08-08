@@ -36,7 +36,6 @@ class App{
             newRegExpFunc = newRegExpFunc.replace(/.html/g, '');
             this.render(newRegExpFunc);
         }
-        // const links = [...document.querySelector('.main-nav').querySelectorAll('a')];
         const links = [...document.body.querySelectorAll('a')];
         console.log(links)
         links.forEach(elem => {
@@ -45,8 +44,7 @@ class App{
                 e.preventDefault();
                 updateState(href);;
                 history.pushState(href, href, href);
-            })           
-                
+            })
             // elem.addEventListener('mousedown', (event) => {
             //     if(event.which == 2){
             //         e.preventDefault();
@@ -63,6 +61,7 @@ class App{
 
     render(page, user){;
         this.ui[page].requestUsers(user);
+        this.router();
     }
 }
 const app = new App();
